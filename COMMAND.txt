@@ -1,0 +1,18 @@
+sudo DOCKER_BUILDKIT=1 docker build -t emugaming .
+
+sudo docker run \
+  --volume /media/wysohn/workspace/others/win10.iso:/win10.iso \
+  --volume /media/wysohn/workspace/others/virtio.iso:/virtio.iso \
+  --volume /home/wysohn/win10.raw:/win10.raw `# the persistent volume` \
+  --interactive --tty \
+  \
+  --device /dev/kvm `# use hardware acceleration` \
+  --device /dev/vfio/vfio ` # vfio is used for PCIe passthrough` \
+  --device /dev/vfio/13 `# the vfio IOMMU group` \
+  --device /dev/vfio/12 `# audio` \
+  --ulimit memlock=-1:-1 `# so DMA can happen for the vfio passthrough` \
+  --volume /dev/input:/dev/input \
+  --volume /dev/bus/usb:/dev/bus/usb `# to allow for hot-plugging of USB devices` \
+  --volume /lib/modules:/lib/modules `# needed for loading vfio` \
+  --privileged `# needed for allowing hot-plugging of USB devices, but should be able to replace with cgroup stuff? also needed for modprobe commands` \
+  emugaming
