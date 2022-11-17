@@ -4,6 +4,7 @@ sudo docker run \
   --volume /media/wysohn/workspace/others/win10.iso:/win10.iso \
   --volume /media/wysohn/workspace/others/virtio.iso:/virtio.iso \
   --volume /home/wysohn/win10.raw:/win10.raw `# the persistent volume` \
+  --volume /media/wysohn/workspace/vmshare:/vmshare \
   --interactive --tty \
   \
   --device /dev/kvm `# use hardware acceleration` \
